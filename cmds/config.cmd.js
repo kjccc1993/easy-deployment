@@ -19,10 +19,15 @@ function config(args) {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify({ ...config }, null, 2));
   }
 
+  if ((!name || !path) && !ignore) {
+    console.log("ERROR: Debe definir un nombre <name> y una ruta <path> para la configuracion del ambiente");
+    return;
+  }
+
   let targetEnv = environments.find(e => name && e.name == name);
 
   if (targetEnv) {
-    console.log('\nAmbiente configurado previamente');
+    console.log('\nMSG: Ambiente configurado previamente');
     _readline('Quieres sobreescribir la configuración del ambiente? (y/n)')
       .then(answer => {
 

@@ -26,6 +26,7 @@ module.exports = {
     "no-console": 0
   },
   "globals": {
-    "process": false
+    "process": false,
+    "__dirname": false
   }
 };
