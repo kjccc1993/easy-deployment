@@ -1,15 +1,16 @@
 {
-  "name": "outside-cli",
+  "name": "easy-deployment",
   "version": "1.0.0",
   "license": "MIT",
   "bin": {
-    "outside": "bin/outside"
+    "easy-deployment": "bin/easy-deployment"
   },
   "scripts": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.5.1"
+  },
   "dependencies": {
-    "axios": "^0.19.0",
     "minimist": "^1.2.0",
-    "ora": "^4.0.2"
+    "shelljs": "^0.8.3"
   }
 }

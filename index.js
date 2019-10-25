@@ -1,25 +1,34 @@
-const minimist = require('minimist')
+const minimist = require('minimist'),
+  configCmd = require('./cmds/config.cmd'),
+  deployCmd = require('./cmds/deploy.cmd');
+
+global.__base = __dirname;
+global.configPath = __dirname + '/config.cfg';
+
 module.exports = () => {
-  const args = minimist(process.argv.slice(2))
-  let cmd = args._[0] || 'help'
+  const args = minimist(process.argv.slice(2));
+  console.log(args);
+  let [cmd] = args._ || 'help';
+
   if (args.version || args.v) {
-    cmd = 'version'
+    cmd = 'version';
   }
+
   if (args.help || args.h) {
-    cmd = 'help'
+    cmd = 'help';
   }
+
   switch (cmd) {
-    case 'today':
-      require('./cmds/today')(args)
-      break
-    case 'version':
-      require('./cmds/version')(args)
-      break
-    case 'help':
-      require('./cmds/help')(args)
-      break
+    case 'config':
+      configCmd(args);
+      break;
+
+    case 'deploy':
+      deployCmd(args);
+      break;
+
     default:
-      console.error(`"${cmd}" is not a valid command!`)
-      break
+      console.error(`"${cmd}" is not a valid command!`);
+      break;
   }
 }
