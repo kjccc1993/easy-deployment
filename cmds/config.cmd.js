@@ -4,7 +4,7 @@ const fs = require('fs'),
 module.exports = config;
 
 function config(args) {
-  const CONFIG_PATH = global.configPath, { name, path, ignore } = args;
+  let CONFIG_PATH = global.configPath, { name, targetPath, ignore, alias, runBefore, rootPath } = args;
 
   //verifico si existe el archivo de configuracion, si no existe lo creo.
   if (!fs.existsSync(CONFIG_PATH)) {
@@ -14,25 +14,28 @@ function config(args) {
   let config = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8') || '{}'),
     { environments = [] } = config;
 
-  if (ignore) {
-    config.ignore = ignore.split(',');
-    fs.writeFileSync(CONFIG_PATH, JSON.stringify({ ...config }, null, 2));
-  }
+  let targetEnv = environments.find(e => name && e.name == name);
 
-  if ((!name || !path) && !ignore) {
-    console.log("ERROR: Debe definir un nombre <name> y una ruta <path> para la configuracion del ambiente");
+  if ((!name || !targetPath) && !targetEnv) {
+    console.log("ERROR: you must define the name <name> and path <targetPath> to configure the environment");
     return;
   }
 
-  let targetEnv = environments.find(e => name && e.name == name);
+  if (ignore) {
+    ignore = ignore.split(',');
+  }
 
   if (targetEnv) {
-    console.log('\nMSG: Ambiente configurado previamente');
-    _readline('Quieres sobreescribir la configuración del ambiente? (y/n)')
+    console.log('\nMSG: environment previosly configured');
+    _readline('Do you want to overwrite the actual configuration? (y/n)')
       .then(answer => {
 
         if (answer == 'y') {
-          targetEnv.path = path;
+          targetEnv.targetPath = targetPath ? targetPath : targetEnv.targetPath;
+          targetEnv.alias = alias ? alias : targetEnv.alias;
+          targetEnv.runBefore = runBefore ? runBefore.split(',') : targetEnv.runBefore;
+          targetEnv.rootPath = rootPath ? rootPath : targetEnv.rootPath;
+          targetEnv.ignore = ignore ? ignore : targetEnv.ignore;
           fs.writeFileSync(CONFIG_PATH, JSON.stringify({ ...config, environments }, null, 2));
         }
 
@@ -41,6 +44,6 @@ function config(args) {
     return;
   }
 
-  environments.push({ name, path });
+  environments.push({ name, alias, targetPath, rootPath, ignore, runBefore: runBefore ? runBefore.split(',') : undefined });
   fs.writeFileSync(CONFIG_PATH, JSON.stringify({ ...config, environments }, null, 2));
 }

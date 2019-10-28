@@ -1,6 +1,6 @@
 {
   "name": "easy-deployment",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "license": "MIT",
   "bin": {
     "easy-deployment": "bin/easy-deployment"
@@ -11,6 +11,11 @@
   },
   "dependencies": {
     "minimist": "^1.2.0",
+    "ora": "^4.0.2",
     "shelljs": "^0.8.3"
-  }
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "preferGlobal": true
 }
