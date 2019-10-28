@@ -1,9 +1,13 @@
 {
   "name": "easy-deployment",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "bin": {
     "easy-deployment": "bin/easy-deployment"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kjccc1993/easy-deployment.git"
   },
   "scripts": {},
   "devDependencies": {
