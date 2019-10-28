@@ -19,6 +19,6 @@ Environments configuration
 
 deploy launching from one environment to another
 
-- from (optional): source environment name, required
+- from (optional): source environment name, required if not use '--p'
 - to: target environment name
 - p: flag to make only commit and push 
